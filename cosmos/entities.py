@@ -35,25 +35,31 @@ integrate them into larger space simulation frameworks or tools.
 Usage:
 ------
 To use any of the classes, create an instance and provide the required
-parameters. For example, to create a new star:
+parameters. For example, to create a new planet:
 
-sun_info={'name': 'Sun',
-          'description': 'A G-type main-sequence star',
-          'body_type': 'star',
-          'parent': None}
+>>> earth_info = {
+...     'name': 'Earth',
+...     'description': 'A pale blue dot.',
+...     'body_type': 'planet',
+...     'parent': 'Sun'
+... }
 
-sun_mechanics={'apogee': 0,
-               'perigee': 0, 'orbit_period': 0,
-               'rotation_period': 25.05,
-               'inclination': 0}
+>>> earth_mechanics = {
+...     'apogee': 1.0167,  # in AU, approximate aphelion distance
+...     'perigee': 0.9833,  # in AU, approximate perihelion distance
+...     'orbit_period': 365.25,  # in days
+...     'rotation_period': 0.997,  # in days, approximately 23.93 hours
+...     'inclination': 23.44  # axial tilt to its orbital plane
+... }
 
-sun_properties={'radius': 696340,
-                'axial_tilt': 7.25}
+>>> earth_properties = {
+...     'radius': 6371,  # in km, approximate average radius
+...     'axial_tilt': 23.44  # in degrees
+... }
 
-
->>> star = CelestialBody(general_info=sun_info},
-...                      orbital_mechanics=sun_mechanics,
-...                      physical_properties=sun_properties)
+>>> earth = CelestialBody(general_info=earth_info,
+...                        orbital_mechanics=earth_mechanics,
+...                        physical_properties=earth_properties)
 
 For more complex entities like star systems or clusters, you might need to
 create multiple celestial bodies or systems first before aggregating them.

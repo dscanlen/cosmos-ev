@@ -4,6 +4,7 @@ Validation docstring
 
 from cosmos.entities import CelestialBody
 
+
 class CelestialBodyValidation:
     """
     This class contains validation methods for the CelestialBody class.
