@@ -66,7 +66,7 @@ Notes:
     detailed simulation capabilities.
 """
 
-from typing import Dict, List, Optional
+from typing import Dict, Tuple, List, Optional
 
 
 class CelestialBody:
@@ -86,7 +86,8 @@ class CelestialBody:
             'name': general_info['name'],
             'description': general_info['description'],
             'body_type': general_info['body_type'],
-            'parent': general_info['parent']
+            'parent': general_info['parent'],
+            'satellites': []
         }
 
         self.orbital_mechanics = {
@@ -102,17 +103,65 @@ class CelestialBody:
             'axial_tilt': physical_properties['axial_tilt']
         }
 
-    def get_name(self) -> str:
-        """
-        Returns the name of the celestial body.
-        """
+    @property
+    def name(self) -> str:
+        """Return the celestial body's name."""
         return self.general_info['name']
 
-    def get_description(self) -> str:
-        """
-        Returns the description of the celestial body.
-        """
+    @property
+    def description(self) -> str:
+        """Return the celestial body's description."""
         return self.general_info['description']
+
+    @property
+    def body_type(self) -> str:
+        """Return the type of celestial body (e.g. star, planet, moon)."""
+        return self.general_info['body_type']
+
+    @property
+    def parent(self) -> str:
+        """Return the name of the parent body."""
+        return self.general_info['parent']
+
+    @property
+    def satellites(self) -> List['CelestialBody']:
+        """Return a list of satellites (if any)."""
+        return self.general_info['satellites']
+
+    @property
+    def apogee(self) -> float:
+        """Return the apogee of the celestial body."""
+        return self.orbital_mechanics['apogee']
+
+    @property
+    def perigee(self) -> float:
+        """Return the perigee of the celestial body."""
+        return self.orbital_mechanics['perigee']
+
+    @property
+    def orbit_period(self) -> float:
+        """Return the orbit period of the celestial body."""
+        return self.orbital_mechanics['orbit_period']
+
+    @property
+    def rotation_period(self) -> float:
+        """Return the rotation period of the celestial body."""
+        return self.orbital_mechanics['rotation_period']
+
+    @property
+    def inclination(self) -> float:
+        """Return the inclination of the celestial body."""
+        return self.orbital_mechanics['inclination']
+
+    @property
+    def radius(self) -> float:
+        """Return the radius of the celestial body."""
+        return self.physical_properties['radius']
+
+    @property
+    def axial_tilt(self) -> float:
+        """Return the axial tilt of the celestial body."""
+        return self.physical_properties['axial_tilt']
 
 
 class Constellation:
@@ -123,27 +172,28 @@ class Constellation:
     def __init__(self,
                  name: str,
                  description: str,
-                 location: List[float]) -> None:
+                 location: Tuple[float]) -> None:
         """
         Constructs all the necessary attributes for the Constellation object.
 
         Parameters:
         name (str): the name of the constellation.
         description (str): a brief description of the constellation
-        lat (float): latitude of the constellation on the skybox (-90 to 90)
-        long (float): longitude of the constellation on the skybox(-180 to 180)
+        location (list): lat, long coordinates of the onjects on the skybox
         """
-        self.name = name
-        self.description = description
-        self.location = location
+        self._name = name
+        self._description = description
+        self._location = location
 
-    def get_name(self) -> str:
+    @property
+    def name(self) -> str:
         """
         Returns the name of the constellation.
         """
         return self.name
 
-    def get_description(self) -> str:
+    @property
+    def description(self) -> str:
         """
         Returns the description of the constellation.
         """
@@ -158,7 +208,7 @@ class StarSystem:
 
     def __init__(self,
                  name: str,
-                 location: List[float],
+                 location: Tuple[float],
                  bodies: Optional[List[CelestialBody]] = None) -> None:
         """
         Constructs all the necessary attributes for the StarSystem object.
@@ -173,6 +223,19 @@ class StarSystem:
         self.location = location
         self.bodies = bodies or []
 
+        self._generate_satellite_list()
+
+    def _generate_satellite_list(self) -> None:
+        """
+        Updates the satellites list for each celestial body based on the parent
+        attribute of other celestial bodies in the system.
+        """
+        for body in self.bodies:
+            for potential_satellite in self.bodies:
+                if potential_satellite.general_info['parent'] == body.name:
+                    body.general_info['satellites'].append(potential_satellite.name)
+
+
 
 class Skybox:
     """
@@ -180,7 +243,7 @@ class Skybox:
     """
 
     def __init__(self,
-                 radius: float,
+                 radius: int,
                  constellations: List[Constellation] | None = None) -> None:
         """
         Constructs all the necessary attributes for the Skybox object.
@@ -211,8 +274,23 @@ class StarCluster:
         Parameters:
         name (str): the name of the star_cluster object
         skybox (Skybox): The surrounding skybox.
-        star_systems (list): a list of star_system objects. Default is None.
+        star_systems (List[StarSystem]): a list of star_system objects. Default
+        is None.
         """
-        self.name = name
+        self._name = name
         self.skybox = skybox
-        self.star_systems = star_systems or []
+        self._star_systems = star_systems or []
+
+    @property
+    def name(self) -> str:
+        """
+        Returns the name of the StarCluster.
+        """
+        return self._name
+
+    @property
+    def star_systems(self) -> List[StarSystem]:
+        """
+        Returns the StarSystems within the StarCluster.
+        """
+        return self._star_systems
