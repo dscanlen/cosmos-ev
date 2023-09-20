@@ -105,62 +105,86 @@ class CelestialBody:
 
     @property
     def name(self) -> str:
-        """Return the celestial body's name."""
+        """
+        Return the celestial body's name.
+        """
         return self.general_info['name']
 
     @property
     def description(self) -> str:
-        """Return the celestial body's description."""
+        """
+        Return the celestial body's description.
+        """
         return self.general_info['description']
 
     @property
     def body_type(self) -> str:
-        """Return the type of celestial body (e.g. star, planet, moon)."""
+        """
+        Return the type of celestial body (e.g. star, planet, moon).
+        """
         return self.general_info['body_type']
 
     @property
     def parent(self) -> 'CelestialBody':
-        """Return the name of the parent body."""
+        """
+        Return the name of the parent body.
+        """
         return self.general_info['parent']
 
     @property
     def satellites(self) -> List['CelestialBody']:
-        """Return a list of satellites (if any)."""
+        """
+        Return a list of satellites (if any).
+        """
         return self.general_info['satellites']
 
     @property
     def apogee(self) -> float:
-        """Return the apogee of the celestial body."""
+        """
+        Return the apogee of the celestial body.
+        """
         return self.orbital_mechanics['apogee']
 
     @property
     def perigee(self) -> float:
-        """Return the perigee of the celestial body."""
+        """
+        Return the perigee of the celestial body.
+        """
         return self.orbital_mechanics['perigee']
 
     @property
     def orbit_period(self) -> float:
-        """Return the orbit period of the celestial body."""
+        """
+        Return the orbit period of the celestial body.
+        """
         return self.orbital_mechanics['orbit_period']
 
     @property
     def rotation_period(self) -> float:
-        """Return the rotation period of the celestial body."""
+        """
+        Return the rotation period of the celestial body.
+        """
         return self.orbital_mechanics['rotation_period']
 
     @property
     def inclination(self) -> float:
-        """Return the inclination of the celestial body."""
+        """
+        Return the inclination of the celestial body.
+        """
         return self.orbital_mechanics['inclination']
 
     @property
     def radius(self) -> float:
-        """Return the radius of the celestial body."""
+        """
+        Return the radius of the celestial body.
+        """
         return self.physical_properties['radius']
 
     @property
     def axial_tilt(self) -> float:
-        """Return the axial tilt of the celestial body."""
+        """
+        Return the axial tilt of the celestial body.
+        """
         return self.physical_properties['axial_tilt']
 
 
@@ -187,17 +211,23 @@ class Constellation:
 
     @property
     def name(self) -> str:
-        """Returns the name of the constellation."""
+        """
+        Returns the name of the constellation.
+        """
         return self.name
 
     @property
     def description(self) -> str:
-        """Returns the description of the constellation."""
+        """
+        Returns the description of the constellation.
+        """
         return self.description
 
     @property
     def location(self) -> tuple:
-        """Returns the description of the constellation."""
+        """
+        Returns the description of the constellation.
+        """
         return self.location
 
 
@@ -220,9 +250,9 @@ class StarSystem:
         bodies (list): a list of celestial bodies orbiting this barycenter.
         Default is None.
         """
-        self.name = name
-        self.location = location
-        self.bodies = bodies or []
+        self._name = name
+        self._location = location
+        self._bodies = bodies or []
 
         self._generate_satellite_list()
 
@@ -231,24 +261,30 @@ class StarSystem:
         Updates the satellites list for each celestial body based on the parent
         attribute of other celestial bodies in the system.
         """
-        for body in self.bodies:
-            for potential_satellite in self.bodies:
+        for body in self._bodies:
+            for potential_satellite in self._bodies:
                 if potential_satellite.parent == body.name:
                     body.satellites.append(potential_satellite)
 
     @property
     def name(self) -> str:
-        """Returns the name of the star system."""
+        """
+        Returns the name of the star system.
+        """
         return self.name
 
     @property
     def location(self) -> tuple:
-        """Returns the description of the star system."""
+        """
+        Returns the description of the star system.
+        """
         return self.location
 
     @property
     def bodies(self) -> str:
-        """Returns the bodies of the star system."""
+        """
+        Returns the bodies of the star system.
+        """
         return self.bodies
 
 
@@ -268,17 +304,21 @@ class Skybox:
         constellations (dict): a dictionary mapping star names to Constellation
         Objects. Default is an empty dict.
         """
-        self.radius = radius
-        self.constellations = constellations or []
-    
+        self._radius = radius
+        self._constellations = constellations or []
+
     @property
     def radius(self) -> str:
-        """Returns the name of the star system."""
+        """
+        Returns the name of the star system.
+        """
         return self.radius
 
     @property
-    def constellations(self) -> list:
-        """Returns the description of the star system."""
+    def constellations(self) -> List[Constellation]:
+        """
+        Returns the description of the star system.
+        """
         return self.constellations
 
 
