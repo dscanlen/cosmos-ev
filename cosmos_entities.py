@@ -119,7 +119,7 @@ class CelestialBody:
         return self.general_info['body_type']
 
     @property
-    def parent(self) -> str:
+    def parent(self) -> 'CelestialBody':
         """Return the name of the parent body."""
         return self.general_info['parent']
 
@@ -187,17 +187,18 @@ class Constellation:
 
     @property
     def name(self) -> str:
-        """
-        Returns the name of the constellation.
-        """
+        """Returns the name of the constellation."""
         return self.name
 
     @property
     def description(self) -> str:
-        """
-        Returns the description of the constellation.
-        """
+        """Returns the description of the constellation."""
         return self.description
+
+    @property
+    def location(self) -> tuple:
+        """Returns the description of the constellation."""
+        return self.location
 
 
 class StarSystem:
@@ -232,8 +233,8 @@ class StarSystem:
         """
         for body in self.bodies:
             for potential_satellite in self.bodies:
-                if potential_satellite.general_info['parent'] == body.name:
-                    body.general_info['satellites'].append(potential_satellite.name)
+                if potential_satellite.parent == body.name:
+                    body.satellites.append(potential_satellite)
 
 
 
