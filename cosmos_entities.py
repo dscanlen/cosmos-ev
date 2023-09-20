@@ -236,6 +236,20 @@ class StarSystem:
                 if potential_satellite.parent == body.name:
                     body.satellites.append(potential_satellite)
 
+    @property
+    def name(self) -> str:
+        """Returns the name of the star system."""
+        return self.name
+
+    @property
+    def location(self) -> tuple:
+        """Returns the description of the star system."""
+        return self.location
+
+    @property
+    def bodies(self) -> str:
+        """Returns the bodies of the star system."""
+        return self.bodies
 
 
 class Skybox:
@@ -256,6 +270,16 @@ class Skybox:
         """
         self.radius = radius
         self.constellations = constellations or []
+    
+    @property
+    def radius(self) -> str:
+        """Returns the name of the star system."""
+        return self.radius
+
+    @property
+    def constellations(self) -> list:
+        """Returns the description of the star system."""
+        return self.constellations
 
 
 class StarCluster:
