@@ -11,7 +11,6 @@ class CelestialBodyValidation:
     The class methods check the type and validity of the passed information.
     """
 
-
     @staticmethod
     def validate_general_info(general_info: dict) -> None:
         """
