@@ -6,7 +6,7 @@ This is a sandbox for people to break the laws of physics and abstract away some
  * Create massive multi-star systems environments
  * Populate star systems with all kinds of celestial object
  * Accurately portray distances  at both the intra-system (AU scale) and extra-system (light-year scale) level
- * Simplified barycenter of up to two objects at the center of a star system
+ * Simplified barycenter of binary objects at the center of a star system
  * Simplified orbital mechanics to allow for fantastical situations (black holes orbiting pluto? Sure!)
  * Build a skybox of distant stars and constellations beyond your multi-system environment
  * View the sky: calculate what celestial and skybox objects and are in the sky from characters location on a planet!
