@@ -58,7 +58,7 @@ parameters. For example, to create a new planet:
 ... }
 
 >>> earth = CelestialBody(general_info=earth_info,
-...                        orbital_mechanics=earth_mechanics,
+...                        orbital_parameters=earth_mechanics,
 ...                        physical_properties=earth_properties)
 
 For more complex entities like star systems or clusters, you might need to
@@ -74,6 +74,10 @@ Notes:
 
 from typing import Dict, Tuple, List, Optional
 
+# View locations will be added and dropped from an active list to make
+# calculations faster. View locations will be merged so body positions will
+# only be computed once. This is for satellites mostly.
+
 
 class CelestialBody:
     """
@@ -81,9 +85,9 @@ class CelestialBody:
     """
 
     def __init__(self,
-                 general_info: Dict[str, str],
-                 orbital_mechanics: Dict[str, float],
-                 physical_properties: Dict[str, float]) -> None:
+                 general_info: Dict,
+                 orbital_parameters: Dict,
+                 physical_properties: Dict) -> None:
         """
         Initialize a CelestialBody with general information, orbital mechanics,
         and physical properties.
@@ -91,24 +95,26 @@ class CelestialBody:
         self.general_info = {
             'name': general_info['name'],
             'description': general_info['description'],
-            'body_type': general_info['body_type'],
             'parent': general_info['parent'],
             'satellites': []
         }
 
-        self.orbital_mechanics = {
-            'apogee': orbital_mechanics['apogee'],
-            'perigee': orbital_mechanics['perigee'],
-            'orbit_period': orbital_mechanics['orbit_period'],
-            'rotation_period': orbital_mechanics['rotation_period'],
-            'inclination': orbital_mechanics['inclination']
+        self.orbital_parameters = {
+            'eccentricity': orbital_parameters['eccentricity'],
+            'semi_major_axis': orbital_parameters["semi_major_axis"],
+            'inclination': orbital_parameters["inclination"],
+            'orbital_period': orbital_parameters["orbital_period"]
         }
 
         self.physical_properties = {
+            'mass': physical_properties['mass'],
             'radius': physical_properties['radius'],
-            'axial_tilt': physical_properties['axial_tilt']
+            'body_type': physical_properties['body_type'],
+            'axial_tilt': physical_properties['axial_tilt'],
+            'rotation_period': physical_properties['rotation_period']
         }
 
+    # General Info
     @property
     def name(self) -> str:
         """
@@ -124,13 +130,6 @@ class CelestialBody:
         return self.general_info['description']
 
     @property
-    def body_type(self) -> str:
-        """
-        Return the type of celestial body (e.g. star, planet, moon).
-        """
-        return self.general_info['body_type']
-
-    @property
     def parent(self) -> 'CelestialBody':
         """
         Return the name of the parent body.
@@ -144,40 +143,49 @@ class CelestialBody:
         """
         return self.general_info['satellites']
 
+    # Orbital Paramters
     @property
-    def apogee(self) -> float:
+    def eccentricity(self) -> float:
         """
-        Return the apogee of the celestial body.
+        Return the eccentricity of the celestial body.
         """
-        return self.orbital_mechanics['apogee']
+        return self.orbital_parameters['eccentricity']
 
     @property
     def perigee(self) -> float:
         """
         Return the perigee of the celestial body.
         """
-        return self.orbital_mechanics['perigee']
+        return self.orbital_parameters['perigee']
 
     @property
-    def orbit_period(self) -> float:
-        """
-        Return the orbit period of the celestial body.
-        """
-        return self.orbital_mechanics['orbit_period']
-
-    @property
-    def rotation_period(self) -> float:
+    def semi_major_axis(self) -> float:
         """
         Return the rotation period of the celestial body.
         """
-        return self.orbital_mechanics['rotation_period']
+        return self.orbital_parameters['semi_major_axis']
 
     @property
     def inclination(self) -> float:
         """
         Return the inclination of the celestial body.
         """
-        return self.orbital_mechanics['inclination']
+        return self.orbital_parameters['inclination']
+
+    @property
+    def orbital_period(self) -> float:
+        """
+        Return the orbital period of the celestial body.
+        """
+        return self.orbital_parameters['orbital_period']
+
+    # Physical Properties
+    @property
+    def mass(self) -> float:
+        """
+        Return the mass of the celestial body.
+        """
+        return self.physical_properties['mass']
 
     @property
     def radius(self) -> float:
@@ -187,11 +195,25 @@ class CelestialBody:
         return self.physical_properties['radius']
 
     @property
+    def body_type(self) -> str:
+        """
+        Return the type of celestial body (e.g. star, planet, moon).
+        """
+        return self.physical_properties['body_type']
+
+    @property
     def axial_tilt(self) -> float:
         """
         Return the axial tilt of the celestial body.
         """
         return self.physical_properties['axial_tilt']
+
+    @property
+    def rotation_period(self) -> float:
+        """
+        Return the rotational period of the celestial body.
+        """
+        return self.physical_properties['rotation_period']
 
 
 class Constellation:
