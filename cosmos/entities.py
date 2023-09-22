@@ -1,9 +1,9 @@
 """
-Cosmos Simulation Entities Module
-================================
+Cosmos Entities
+================
 
 This module provides a set of classes representing various celestial and
-astronomical entities for afantastical space simulation or astronomical
+astronomical entities for a fantastical space simulation or astronomical
 modeling tool. The primary entities captured in this module include:
 
 - CelestialBody: Represents individual celestial objects such as stars,
