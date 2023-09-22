@@ -32,34 +32,35 @@ Each of the above entities is designed with modularity and extensibility in
 mind, making it easy to expand or adapt them to specific requirements or to
 integrate them into larger space simulation frameworks or tools.
 
-Usage:
-------
-To use any of the classes, create an instance and provide the required
-parameters. For example, to create a new planet:
+# THIS IS OUT OF DATE - REPLACE
+# Usage:
+# ------
+# To use any of the classes, create an instance and provide the required
+# parameters. For example, to create a new planet:
 
->>> earth_info = {
-...     'name': 'Earth',
-...     'description': 'A pale blue dot.',
-...     'body_type': 'planet',
-...     'parent': 'Sun'
-... }
+# >>> earth_info = {
+# ...     'name': 'Earth',
+# ...     'description': 'A pale blue dot.',
+# ...     'body_type': 'planet',
+# ...     'parent': 'Sun'
+# ... }
 
->>> earth_mechanics = {
-...     'apogee': 1.0167,  # in AU, approximate aphelion distance
-...     'perigee': 0.9833,  # in AU, approximate perihelion distance
-...     'orbit_period': 365.25,  # in days
-...     'rotation_period': 0.997,  # in days, approximately 23.93 hours
-...     'inclination': 23.44  # axial tilt to its orbital plane
-... }
+# >>> earth_mechanics = {
+# ...     'apogee': 1.0167,  # in AU, approximate aphelion distance
+# ...     'perigee': 0.9833,  # in AU, approximate perihelion distance
+# ...     'orbit_period': 365.25,  # in days
+# ...     'rotation_period': 0.997,  # in days, approximately 23.93 hours
+# ...     'inclination': 23.44  # axial tilt to its orbital plane
+# ... }
 
->>> earth_properties = {
-...     'radius': 6371,  # in km, approximate average radius
-...     'axial_tilt': 23.44  # in degrees
-... }
+# >>> earth_properties = {
+# ...     'radius': 6371,  # in km, approximate average radius
+# ...     'axial_tilt': 23.44  # in degrees
+# ... }
 
->>> earth = CelestialBody(general_info=earth_info,
-...                        orbital_parameters=earth_mechanics,
-...                        physical_properties=earth_properties)
+# >>> earth = CelestialBody(general_info=earth_info,
+# ...                        orbital_parameters=earth_mechanics,
+# ...                        physical_properties=earth_properties)
 
 For more complex entities like star systems or clusters, you might need to
 create multiple celestial bodies or systems first before aggregating them.
@@ -161,7 +162,7 @@ class CelestialBody:
     @property
     def semi_major_axis(self) -> float:
         """
-        Return the rotation period of the celestial body.
+        Return the semi major axis of the celestial body.
         """
         return self.orbital_parameters['semi_major_axis']
 
@@ -252,9 +253,9 @@ class Constellation:
         return self.description
 
     @property
-    def location(self) -> tuple:
+    def location(self) -> Tuple[float]:
         """
-        Returns the description of the constellation.
+        Returns a x,y coordinate location of the constellation.
         """
         return self.location
 
@@ -274,7 +275,7 @@ class StarSystem:
 
         Parameters:
         name (str): the name of the star system
-        location (list): a list mapping star system x, y, z coordinates
+        location (tuple): a list mapping star system x, y, z coordinates
         bodies (list): a list of celestial bodies orbiting this barycenter.
         Default is None.
         """
@@ -304,14 +305,14 @@ class StarSystem:
     @property
     def location(self) -> tuple:
         """
-        Returns the description of the star system.
+        Returns a x,y,z coordinate location of the star system.
         """
         return self.location
 
     @property
-    def bodies(self) -> str:
+    def bodies(self) -> List[CelestialBody]:
         """
-        Returns the bodies of the star system.
+        Returns the a list of CelestialBody objects in the star system.
         """
         return self.bodies
 
@@ -328,7 +329,7 @@ class Skybox:
         Constructs all the necessary attributes for the Skybox object.
 
         Parameters:
-        radius (float): the radius of the sphere.
+        radius (float): the radius of the sphere in lightyears.
         constellations (dict): a dictionary mapping star names to Constellation
         Objects. Default is an empty dict.
         """
@@ -338,14 +339,14 @@ class Skybox:
     @property
     def radius(self) -> str:
         """
-        Returns the name of the star system.
+        Returns the radius of the skybox in lightyears.
         """
         return self.radius
 
     @property
     def constellations(self) -> List[Constellation]:
         """
-        Returns the description of the star system.
+        Returns a list of Constellation objects in the skybox
         """
         return self.constellations
 
