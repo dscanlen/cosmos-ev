@@ -9,7 +9,7 @@ This is where you can initialise your astronomical entities.
 
 # An example set of entities
 
-from cosmos.entities import CelestialBody, StarSystem, StarCluster, Skybox
+from cosmos.entities import CelestialBody, Constellation, StarSystem, StarCluster, Skybox
 
 sun = CelestialBody(
     general_info={
@@ -187,6 +187,10 @@ mars_moon2 = CelestialBody(
     }
 )
 
+# Create Constellations for the skybox (if needed)
+constellation1 = Constellation(name='Orion', description='The Orion constellation', location=(0, 0)) 
+# Add more constellations if desired    
+
 # Create the Skybox
 skybox = Skybox(radius=100)
 
@@ -195,9 +199,6 @@ solar_system = StarSystem(name='Solar System',
                           location=(0, 0, 0),  # You can adjust the location
                           bodies=[sun, earth])  # Add other planets and moons
 
-# Create Constellations for the skybox (if needed)
-# constellation1 = Constellation(name='Orion', description='The Orion constellation', location=(0, 0))
-# Add more constellations if desired
 
 # Add the StarSystem to the StarCluster
 star_cluster = StarCluster(name='Local Star Cluster',
