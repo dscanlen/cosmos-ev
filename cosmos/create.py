@@ -9,7 +9,7 @@ This is where you can initialise your astronomical entities.
 
 # An example set of entities
 
-from cosmos.entities import CelestialBody
+from cosmos.entities import CelestialBody, StarSystem, StarCluster, Skybox
 
 sun = CelestialBody(
     general_info={
@@ -99,6 +99,28 @@ earth = CelestialBody(
     }
 )
 
+earth_moon = CelestialBody(
+    general_info={
+        'name': 'Moon',
+        'description': 'Earth\'s only natural satellite.',
+        'parent': earth,  # Moon orbits Earth.
+        'satellites': []  # The Moon itself doesn't have any satellites.
+    },
+    orbital_parameters={
+        'eccentricity': 0.0549,
+        'semi_major_axis': 384400,  # in km, average distance from Earth.
+        'inclination': 5.145,  # degrees to Earth's equatorial plane.
+        'orbital_period': 27.322  # in days.
+    },
+    physical_properties={
+        'mass': 7.342 * 10**22,  # in kg.
+        'radius': 1737.5,  # in km.
+        'body_type': 'moon',
+        'axial_tilt': 6.68,  # in degrees to its orbital plane.
+        'rotation_period': 27.322  # in days, synchronous rotation.
+    }
+)
+
 mars = CelestialBody(
     general_info={
         'name': 'Mars',
@@ -121,4 +143,63 @@ mars = CelestialBody(
     }
 )
 
-sun.general_info['satellites'].extend([mercury, venus, earth, mars])
+mars_moon1 = CelestialBody(
+    mars_moon1_info = {
+        'name': 'Phobos',
+        'description': 'Mars\'s larger moon.',
+        'parent': mars, # Moon orbits Mars
+        'satellites': [],
+    },
+    mars_moon1_mechanics = {
+        'eccentricity': 0.0151,  # Example eccentricity for Phobos
+        'semi_major_axis': 0.0001,  # Example semi-major axis for Phobos (in AU)
+        'inclination': 1.093,  # Example inclination for Phobos (in degrees)
+        'orbital_period': 0.32  # Example orbital period for Phobos (in days)
+    },
+    mars_moon1_properties = {
+        'mass': 1.0659 * 10**16,  # Mass of Phobos in kg
+        'radius': 11.1,  # Radius of Phobos in km
+        'body_type': 'moon',
+        'axial_tilt': 0.0,  # Axial tilt of Phobos (in degrees)
+        'rotation_period': 0.32  # Rotation period of Phobos (in days)
+    }
+)
+
+mars_moon2 = CelestialBody(
+    mars_moon2_info = {
+        'name': 'Deimos',
+        'description': 'Mars\'s smaller moon.',
+        'parent': mars , # Moon orbits Mars
+        'satellites': []
+    },
+    mars_moon2_mechanics = {
+        'eccentricity': 0.00033,  # Example eccentricity for Deimos
+        'semi_major_axis': 0.0002,  # Example semi-major axis for Deimos (in AU)
+        'inclination': 1.791,  # Example inclination for Deimos (in degrees)
+        'orbital_period': 1.26  # Example orbital period for Deimos (in days)
+    },
+    mars_moon2_properties = {
+        'mass': 1.4762 * 10**15,  # Mass of Deimos in kg
+        'radius': 6.2,  # Radius of Deimos in km
+        'body_type': 'moon',
+        'axial_tilt': 0.0,  # Axial tilt of Deimos (in degrees)
+        'rotation_period': 1.26  # Rotation period of Deimos (in days)
+    }
+)
+
+# Create the Skybox
+skybox = Skybox(radius=100)
+
+# Create the StarSystem
+solar_system = StarSystem(name='Solar System',
+                          location=(0, 0, 0),  # You can adjust the location
+                          bodies=[sun, earth])  # Add other planets and moons
+
+# Create Constellations for the skybox (if needed)
+# constellation1 = Constellation(name='Orion', description='The Orion constellation', location=(0, 0))
+# Add more constellations if desired
+
+# Add the StarSystem to the StarCluster
+star_cluster = StarCluster(name='Local Star Cluster',
+                            skybox=skybox,
+                            star_systems=[solar_system])
